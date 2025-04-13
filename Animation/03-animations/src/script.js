@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import gsap from "gsap";
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -20,7 +21,10 @@ const sizes = {
 
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
-camera.position.z = 3;
+// camera.position.x = 3; // moves it 3 units to the right
+// camera.position.z = 3; // keep some depth so it still sees the scene
+camera.position.set(3,0,0); // Right-hand side of the object
+
 scene.add(camera);
 
 // Renderer
@@ -29,15 +33,22 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 
-let time = Date.now();
+// let time = Date.now();
 
+let clock = new THREE.Clock();
+
+gsap.to(mesh.position,{x:2 ,duration : 1, delay:1});
 const tick = () => {
-  const currentTime = Date.now();
-  const delta = currentTime - time;
-  time = currentTime;
-
-	mesh.rotation.y += 0.005;
-  // mesh.position.z += 0.01;
+  // const currentTime = Date.now();
+  // const delta = currentTime - time;
+  // time = currentTime;
+  const elapsedTime = clock.getElapsedTime();
+  console.log(elapsedTime);
+	// mesh.rotation.y += elapsedTime;
+  // mesh.position.z -= 0.01;
+  mesh.position.y = Math.sin(elapsedTime);
+  mesh.position.z = Math.cos(elapsedTime);
+  camera.lookAt(mesh.position);
 	renderer.render(scene, camera);
 	window.requestAnimationFrame(tick);
 };
