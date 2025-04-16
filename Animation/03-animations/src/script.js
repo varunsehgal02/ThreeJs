@@ -37,7 +37,11 @@ renderer.setSize(sizes.width, sizes.height);
 
 let clock = new THREE.Clock();
 
-gsap.to(mesh.position,{x:2 ,duration : 1, delay:1});
+// gsap.to(mesh.position,{x:2 ,duration : 1, delay:1});
+// gsap.to(mesh.position,{x:0 ,duration : 3, delay:3});
+
+
+
 const tick = () => {
   // const currentTime = Date.now();
   // const delta = currentTime - time;
@@ -53,3 +57,10 @@ const tick = () => {
 	window.requestAnimationFrame(tick);
 };
 tick();
+
+
+const fb = () =>{
+  gsap.to(mesh.position,{x:2 ,duration : 1, delay:1});
+  gsap.to(mesh.position,{x:0 ,duration : 3, delay:3});
+}
+fb();
